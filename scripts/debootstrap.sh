@@ -55,8 +55,10 @@ SUBSYSTEM=="net", ACTION=="add|change|move", ENV{DEVTYPE}=="gadget", ENV{NM_UNMA
 EOF
 
 # install kernel
-wget -O - http://mirror.postmarketos.org/postmarketos/v24.06/aarch64/linux-postmarketos-qcom-msm8916-6.6-r5.apk \
+wget -O - http://mirror.postmarketos.org/postmarketos/v26.06/aarch64/linux-postmarketos-qcom-msm8916-6.12.1-r5.apk \
     | tar xkzf - -C ${CHROOT} --exclude=.PKGINFO --exclude=.SIGN* 2>/dev/null
+
+chroot ${CHROOT} /sbin/depmod $(ls ${CHROOT}/lib/modules/ | head -n1)
 
 mkdir -p ${CHROOT}/boot/extlinux
 cp configs/extlinux.conf ${CHROOT}/boot/extlinux
